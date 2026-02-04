@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Secret for Geetika ❤️</title>
+    <style>
+        :root { --primary-pink: #ff4d6d; --soft-pink: #ffccd5; }
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background: radial-gradient(circle, #fff0f3, #ffccd5); font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        
+        /* Password Screen */
+        #passGate { position: fixed; inset: 0; background: #fff0f3; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 100; transition: 0.8s; }
+        .pass-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; }
+        input { padding: 10px; border-radius: 10px; border: 2px solid var(--soft-pink); width: 200px; font-size: 1rem; text-align: center; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--primary-pink); }
+        .hint { font-size: 0.8rem; color: #888; margin-top: 10px; }
+
+        /* Main Elements */
+        .heart { position: absolute; color: var(--primary-pink); font-size: 20px; pointer-events: none; animation: float 4s linear infinite; opacity: 0; z-index: 1; }
+        @keyframes float { 0% { transform: translateY(100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; } }
+
+        .card { background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 30px; box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2); text-align: center; z-index: 10; max-width: 450px; width: 90%; border: 2px solid white; display: none; opacity: 0; transition: 1s; }
+        
+        .btn-group { display: flex; justify-content: center; gap: 40px; margin-top: 30px; position: relative; min-height: 50px; }
+        button { padding: 12px 35px; font-size: 1.1rem; font-weight: bold; border-radius: 50px; border: none; cursor: pointer; transition: 0.2s; }
+        
+        #yesBtn { background-color: var(--primary-pink); color: white; box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4); }
+        #noBtn { background-color: #6c757d; color: white; position: absolute; left: 60%; transition: 0.1s ease-out; }
+
+        .gem-img { width: 200px; height: 200px; object-fit: cover; border-radius: 50%; border: 5px solid var(--primary-pink); margin-bottom: 20px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0.7); } 70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(255, 77, 109, 0); } 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 77, 109, 0); } }
+    </style>
+</head>
+<body>
+
+    <div id="heart-container"></div>
+    <audio id="romanticMusic" loop>
+        <source src="https://www.chosic.com/wp-content/uploads/2021/04/And-So-It-Begins-Inspired-By-Crush-Music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="passGate">
+        <div class="pass-card">
+            <h2 style="color: #ff4d6d;">Who is in your heart? ❤️</h2>
+            <input type="password" id="passInput" placeholder="Type here..." oninput="checkPass()">
+            <p class="hint">Hint: First name, small letters.</p>
+        </div>
+    </div>
+
+    <div class="card" id="mainCard">
+        <div id="askContainer">
+            <h1 style="color: #ff4d6d;">Hey Geetika, Would you go on a Valentine Date with me in 2026? ❤️</h1>
+            <div class="btn-group">
+                <button id="yesBtn" onclick="celebrate()">YES!</button>
+                <button id="noBtn" onmouseover="moveButton()">No</button>
+            </div>
+        </div>
+
+        <div id="result" style="display: none;">
+            <img src="https://image2url.com/r2/default/images/1770199376524-4203ef19-71ba-49eb-836f-aee33a904520.jpeg" class="gem-img" alt="Geetika">
+            <h2 style="color: #ff4d6d;">I knew it, Yayy !</h2>
+            <p style="color: #555;">You are a sweetheart 💎<br>See you next week!</p>
+        </div>
+    </div>
+
+    <script>
+        // Password Logic
+        function checkPass() {
+            const input = document.getElementById('passInput').value.toLowerCase();
+            if (input === 'akesh') {
+                const gate = document.getElementById('passGate');
+                const card = document.getElementById('mainCard');
+                gate.style.opacity = '0';
+                setTimeout(() => { 
+                    gate.style.display = 'none';
+                    card.style.display = 'block';
+                    setTimeout(() => card.style.opacity = '1', 50);
+                }, 800);
+            }
+        }
+
+        // Floating Hearts Background
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = ['❤️', '💖', '✨'][Math.floor(Math.random() * 3)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            document.getElementById('heart-container').appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 4000);
+        }
+        setInterval(createHeart, 300);
+
+        // Fixed "No" Button Logic (Keeps it on screen)
+        function moveButton() {
+            const btn = document.getElementById('noBtn');
+            const card = document.getElementById('mainCard').getBoundingClientRect();
+            
+            // Random position within the window, avoiding the card area for better gameplay
+            const maxX = window.innerWidth - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - btn.offsetHeight - 20;
+            
+            let randomX = Math.random() * maxX;
+            let randomY = Math.random() * maxY;
+
+            btn.style.position = 'fixed';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('romanticMusic').play();
+            document.getElementById('askContainer').style.display = 'none';
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('noBtn').style.display = 'none';
+            for(let i=0; i<100; i++) setTimeout(createHeart, i * 15);
+        }
+    </script>
+</body>
+</html>
